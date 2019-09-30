@@ -1,4 +1,4 @@
-const { readSecrets, writeSecretes } = require("./models/secrets");
+const { readSecrets, writeSecrets } = require("./models/secrets");
 
 /*
 commands:
@@ -8,24 +8,15 @@ unset {key}
 get {key}
 */
 
-function showProcessDetails() {
-  console.log(`Node version: ${process.version}`);
-  console.log(`Platform: ${process.platform}${process.arch}`);
-  console.log(`Arguments: ${process.argv.join(" ")}`);
-}
-
-showProcessDetails();
 const userArgv = process.argv.slice(2);
 const [action, key, value] = userArgv;
 
 //  It is enough to call the correct function and log the required parameters.
 
 function set(key, value) {
-  console.log("set", key, value);
-  const newSecrets = {
-    [key]: value
-  };
-  writeSecretes(newSecrets);
+  const secrets = readSecrets();
+  secrets[key] = value;
+  writeSecrets(secrets);
 }
 
 function unset(key) {
@@ -34,7 +25,6 @@ function unset(key) {
 
 function get(key) {
   const secrets = readSecrets();
-  console.log("get", key);
   const secret = secrets[key];
   console.log(secret);
 }

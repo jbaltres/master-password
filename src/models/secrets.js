@@ -1,10 +1,19 @@
-exports.readSecrets = function readSecrets() {
-  return {
-    pin: 1234,
-    wlan: "pw1234"
-  };
-};
+const fs = require("fs");
 
-exports.writeSecretes = function writeSecrets(secrets) {
-  console.log("Write secrets", secrets);
-};
+function readSecrets() {
+  try {
+    const secretsJSON = fs.readFileSync("test.json", "utf-8");
+    const secrets = JSON.parse(secretsJSON);
+    return secrets;
+  } catch (error) {
+    writeSecrets({});
+    return {};
+  }
+}
+
+function writeSecrets(secrets) {
+  fs.writeFileSync("test.json", JSON.stringify(secrets));
+}
+
+exports.readSecrets = readSecrets;
+exports.writeSecrets = writeSecrets;
