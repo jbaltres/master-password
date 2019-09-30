@@ -1,3 +1,5 @@
+const { readSecrets, writeSecretes } = require("./models/secrets");
+
 /*
 commands:
 
@@ -13,22 +15,17 @@ function showProcessDetails() {
 }
 
 showProcessDetails();
-
-// const userArgv = process.argv.slice(2);
-// const action = userArgv[0];
-// const key = userArgv[1];
-// const value = userArgv[2];
-
-//alternative solution with slice and array destructoring
-
-const [action, key, value] = process.argv.slice(2);
-
-console.log(action, key, value);
+const userArgv = process.argv.slice(2);
+const [action, key, value] = userArgv;
 
 //  It is enough to call the correct function and log the required parameters.
 
 function set(key, value) {
   console.log("set", key, value);
+  const newSecrets = {
+    [key]: value
+  };
+  writeSecretes(newSecrets);
 }
 
 function unset(key) {
@@ -36,7 +33,10 @@ function unset(key) {
 }
 
 function get(key) {
+  const secrets = readSecrets();
   console.log("get", key);
+  const secret = secrets[key];
+  console.log(secret);
 }
 
 // call the correct function based on action
