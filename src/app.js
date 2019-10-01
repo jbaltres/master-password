@@ -1,5 +1,6 @@
 const { readSecrets, writeSecrets } = require("./models/secrets");
-
+const readline = require("readline");
+const masterPassword = "1234";
 /*
 commands:
 
@@ -10,6 +11,11 @@ get {key}
 
 const userArgv = process.argv.slice(2);
 const [action, key, value] = userArgv;
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 //  It is enough to call the correct function and log the required parameters.
 
@@ -26,9 +32,17 @@ function unset(key) {
 }
 
 function get(key) {
-  const secrets = readSecrets();
-  const secret = secrets[key];
-  console.log(secret);
+  rl.question("Tell me ur PIN 🔫! ", answer => {
+    if (answer === masterPassword) {
+      console.log(`Your Pin is WRONG!!! Just kiddin 😛 : ${answer}`);
+      const secrets = readSecrets();
+      const secret = secrets[key];
+      console.log(secret);
+    } else {
+      console.log("Password Fälschlich");
+    }
+    rl.close();
+  });
 }
 
 // call the correct function based on action
@@ -46,34 +60,3 @@ function perform() {
 }
 
 perform();
-
-/*
-// solution 1:
-switch (action) {
-  case "get":
-    get(key);
-    break;
-  case "set":
-    set(key, value);
-    break;
-  case "unset":
-    unset(key);
-    break;
-  default:
-    throw new Error("unknown action");
-}
-
-
-// solution 3:
-const commands = {
-  set,
-  get,
-  unset
-};
-
-const command = commands[action];
-if (!command) {
-  throw new Error("unknown action");
-}
-command(key, value);
-*/
