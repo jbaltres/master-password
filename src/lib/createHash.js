@@ -1,4 +1,3 @@
-const fs = require("fs");
 const crypto = require("crypto");
 
 function hashPassword(password) {
@@ -10,8 +9,3 @@ function hashPassword(password) {
 }
 
 console.log(hashPassword(process.argv[2]));
-
-function writeSecrets(secrets) {
-  fs.writeFileSync("pula.md", JSON.stringify(secrets));
-}
-exports.writeSecrets = writeSecrets;
