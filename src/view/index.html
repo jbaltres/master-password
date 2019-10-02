@@ -11,16 +11,19 @@
     <input type="text" placeholder="Type yor pin" id="first" />
     <input type="text" placeholder="Type your value" id="second" />
     <button id="execute">Click Me!</button>
+    <span id="result"></span>
     <script>
       function handleClick() {
         console.log(valueOfInputField.value);
-        return fetch("http://localhost:3000/restaurants").then(response =>
-          response.json()
-        );
+        result.innerHTML = valueOfInputField.value;
+        // return fetch("http://localhost:3000/restaurants").then(response =>
+        //   response.json()
+        // );
       }
 
       const valueOfInputField = document.querySelector("#first");
       const buttonValue = document.querySelector("#execute");
+      let result = document.querySelector("#result");
 
       buttonValue.addEventListener("click", handleClick);
     </script>
