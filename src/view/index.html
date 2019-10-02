@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Master Password</title>
+  </head>
+  <body>
+    <h1>Welcome to Master Password</h1>
+    <input type="text" placeholder="Type yor pin" id="first" />
+    <input type="text" placeholder="Type your value" id="second" />
+    <button id="execute">Click Me!</button>
+    <script>
+      function handleClick() {
+        console.log(valueOfInputField.value);
+        return fetch("http://localhost:3000/restaurants").then(response =>
+          response.json()
+        );
+      }
+
+      const valueOfInputField = document.querySelector("#first");
+      const buttonValue = document.querySelector("#execute");
+
+      buttonValue.addEventListener("click", handleClick);
+    </script>
+  </body>
+</html>

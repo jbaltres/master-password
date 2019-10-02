@@ -1,14 +1,18 @@
 const http = require("http");
 const url = require("url");
+const fs = require("fs");
 const { get } = require("./lib/commands");
 
 const server = http.createServer(function(request, response) {
   //http server erstellen
   if (request.url === "/favicon.ico") {
+    response.writeHead(200, { "Content-Type": "text/html" });
     return response.end();
   }
   if (request.url === "/") {
-    return response.end("Welcome to my secrets manager");
+    response.writeHead(200, { "Content-Type": "text/html" });
+    const content = fs.readFileSync("src/view/index.html", "utf-8");
+    return response.end(content);
   }
 
   try {
