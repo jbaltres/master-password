@@ -8,14 +8,26 @@
   </head>
   <body>
     <h1>Welcome to Master Password</h1>
-    <input type="text" placeholder="Type yor pin" id="first" />
-    <input type="text" placeholder="Type your value" id="second" />
-    <button id="execute">Click Me!</button>
-    <span id="result"></span>
+    <form id="getForm">
+      <input
+        type="text"
+        placeholder="Type your pinname"
+        id="firstget"
+        autocomplete="off"
+      />
+      <button>Click Me to get your Password!</button>
+    </form>
+    <span id="resultget"></span>
+    <form id="setForm">
+      <input type="text" placeholder="Type yor pinname" id="firstset" />
+      <input type="text" placeholder="Type your value" id="secondset" />
+      <button>Click Me to set a Password!</button>
+    </form>
+    <span id="resultset"></span>
     <script>
-      function handleClick() {
+      function handleGet(event) {
+        event.preventDefault();
         console.log(valueOfInputField.value);
-        result.innerHTML = valueOfInputField.value;
         const password = valueOfInputField.value;
 
         fetch(`/${password}`).then(function(response) {
@@ -26,11 +38,29 @@
         });
       }
 
-      const valueOfInputField = document.querySelector("#first");
-      const buttonValue = document.querySelector("#execute");
-      let result = document.querySelector("#result");
+      const valueOfInputField = document.querySelector("#firstget");
+      let result = document.querySelector("#resultget");
 
-      buttonValue.addEventListener("click", handleClick);
+      getForm.addEventListener("submit", handleGet);
+
+      function handleSet() {
+        // event.preventDefault();
+        console.log(valueOneSetInput.value, valueTwoSetInput.value);
+        // const password = valueOfInputField.value;
+
+        //   fetch(`/${password}`).then(function(response) {
+        //     return response.text().then(function(text) {
+        //       result.innerHTML = text;
+        //       console.log(result);
+        //     });
+        //   });
+        // }
+      }
+      const valueOneSetInput = document.querySelector("#firstset");
+      const valueTwoSetInput = document.querySelector("#secondset");
+      // let result = document.querySelector("#resultset");
+
+      setForm.addEventListener("submit", handleSet);
     </script>
   </body>
 </html>
