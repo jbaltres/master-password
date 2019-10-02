@@ -3,6 +3,7 @@ const url = require("url");
 const { get } = require("./lib/commands");
 
 const server = http.createServer(function(request, response) {
+  //http server erstellen
   if (request.url === "/favicon.ico") {
     return response.end();
   }
@@ -11,8 +12,8 @@ const server = http.createServer(function(request, response) {
   }
 
   try {
-    const path = request.url.slice(1);
-    const URLobject = url.parse(path);
+    const path = request.url.slice(1); // das ist der Pfad der als URL eingegeben wird
+    const URLobject = url.parse(path); // das ist das komplette Objekt, welches parse ausgibt vom neuen path
     console.log(path);
     console.log(URLobject);
     const secret = get("pula", URLobject.pathname);
@@ -25,4 +26,6 @@ const server = http.createServer(function(request, response) {
   response.end();
 });
 
-server.listen(8080);
+server.listen(8080, () => {
+  console.log("Server listens to http://localhost:8080");
+});
