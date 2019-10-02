@@ -16,9 +16,14 @@
       function handleClick() {
         console.log(valueOfInputField.value);
         result.innerHTML = valueOfInputField.value;
-        // return fetch("http://localhost:3000/restaurants").then(response =>
-        //   response.json()
-        // );
+        const password = valueOfInputField.value;
+
+        fetch(`/${password}`).then(function(response) {
+          return response.text().then(function(text) {
+            result.innerHTML = text;
+            console.log(result);
+          });
+        });
       }
 
       const valueOfInputField = document.querySelector("#first");
