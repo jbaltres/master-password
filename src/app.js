@@ -11,7 +11,7 @@ const rl = readline.createInterface({
 });
 
 const masterPasswordHash =
-  "1fd807a39fdcb8ee139e296704d12efe$552912dd37e6138d8ff9933d5848266cc5c53558a60d3f50ccf2c8383ccdec3d";
+  "a4a5047193403a5aa63f036e952558a1$a4aee0886b00a16888cbee1c869869306d2191393ad697f25aec7c8c170931e1";
 
 rl.question("What is the master password? ", password => {
   rl.output.write("\n");

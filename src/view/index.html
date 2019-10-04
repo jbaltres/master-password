@@ -25,6 +25,11 @@
     </form>
     <span id="resultset"></span>
     <script>
+      const valueOfInputField = document.querySelector("#firstget");
+      let result = document.querySelector("#resultget");
+      const setInputKey = document.querySelector("#firstset");
+      const setInputValue = document.querySelector("#secondset");
+
       function handleGet(event) {
         event.preventDefault();
         console.log(valueOfInputField.value);
@@ -38,28 +43,15 @@
         });
       }
 
-      const valueOfInputField = document.querySelector("#firstget");
-      let result = document.querySelector("#resultget");
+      function handleSet(event) {
+        event.preventDefault();
+        fetch(`/${setInputKey.value}`, {
+          method: "POST",
+          body: setInputValue.value
+        });
+      }
 
       getForm.addEventListener("submit", handleGet);
-
-      function handleSet() {
-        // event.preventDefault();
-        console.log(valueOneSetInput.value, valueTwoSetInput.value);
-        // const password = valueOfInputField.value;
-
-        //   fetch(`/${password}`).then(function(response) {
-        //     return response.text().then(function(text) {
-        //       result.innerHTML = text;
-        //       console.log(result);
-        //     });
-        //   });
-        // }
-      }
-      const valueOneSetInput = document.querySelector("#firstset");
-      const valueTwoSetInput = document.querySelector("#secondset");
-      // let result = document.querySelector("#resultset");
-
       setForm.addEventListener("submit", handleSet);
     </script>
   </body>
