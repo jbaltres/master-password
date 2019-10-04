@@ -1,32 +1,38 @@
 const crypto = require("crypto");
-const { readSecrets, writeSecrets } = require("./secrets");
+const { getCollection } = require("./database");
 
-function set(password, key, value) {
-  const mykey = crypto.createCipher("aes-128-cbc", password);
-  let encryptedValue = mykey.update(value, "utf8", "hex");
-  encryptedValue += mykey.final("hex");
+async function set(password, key, value) {
+  const secretsCollection = await getCollection("secrets");
 
-  const secrets = readSecrets();
-  secrets[key] = encryptedValue;
-  writeSecrets(secrets);
+  const cryptoKey = crypto.createCipher("aes-128-cbc", password);
+  let encryptedValue = cryptoKey.update(value, "utf8", "hex");
+  encryptedValue += cryptoKey.final("hex");
+
+  await secretsCollection.updateOne(
+    { key },
+    { $set: { value: encryptedValue } },
+    { upsert: true }
+  );
 }
 
-function unset(password, key) {
-  const secrets = readSecrets();
-  delete secrets[key];
-  writeSecrets(secrets);
+async function unset(password, key) {
+  const secretsCollection = await getCollection("secrets");
+
+  if (!get(password, key)) {
+    throw new Error("No access to secret");
+  }
+  await secretsCollection.deleteOne({ key });
 }
 
-function get(password, key) {
-  const secrets = readSecrets();
-  const secret = secrets[key];
+async function get(password, key) {
+  const secretsCollection = await getCollection("secrets");
+  const secret = await secretsCollection.findOne({ key });
 
-  const mykey = crypto.createDecipher("aes-128-cbc", password);
-  let decrypted = mykey.update(secret, "hex", "utf8");
-  decrypted += mykey.final("utf8");
+  const cryptoKey = crypto.createDecipher("aes-128-cbc", password);
+  let decryptedSecret = cryptoKey.update(secret.value, "hex", "utf8");
+  decryptedSecret += cryptoKey.final("utf8");
 
-  console.log(decrypted);
-  return decrypted;
+  return decryptedSecret;
 }
 
 const commands = {
@@ -42,6 +48,6 @@ exports.executeCommand = function executeCommand(password, action, key, value) {
   }
   return command(password, key, value);
 };
-
-exports.get = get;
 exports.set = set;
+exports.unset = unset;
+exports.get = get;

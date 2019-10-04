@@ -11,24 +11,35 @@
     <form id="getForm">
       <input
         type="text"
-        placeholder="Type your pinname"
+        placeholder="Type in your key"
         id="firstget"
         autocomplete="off"
       />
       <button>Click Me to get your Password!</button>
     </form>
     <span id="resultget"></span>
-    <form id="setForm">
-      <input type="text" placeholder="Type yor pinname" id="firstset" />
+    <form style="margin:24px 0px" id="setForm">
+      <input type="text" placeholder="Typ ine yor key" id="firstset" />
       <input type="text" placeholder="Type your value" id="secondset" />
       <button>Click Me to set a Password!</button>
     </form>
     <span id="resultset"></span>
+    <form id="removeSecretForm">
+      <input
+        type="text"
+        placeholder="Type in your key"
+        id="firstdel"
+        autocomplete="off"
+      />
+      <button>Click Me to delete your Password!</button>
+    </form>
+    <span id="resultdel"></span>
     <script>
       const valueOfInputField = document.querySelector("#firstget");
       let result = document.querySelector("#resultget");
       const setInputKey = document.querySelector("#firstset");
       const setInputValue = document.querySelector("#secondset");
+      const removeSecretForm = document.querySelector("#removeSecretForm");
 
       function handleGet(event) {
         event.preventDefault();
@@ -51,8 +62,21 @@
         });
       }
 
+      function handleRemove(event) {
+        event.preventDefault();
+        const data = Object.fromEntries(
+          new FormData(removeSecretForm).entries()
+        );
+        const url = `/${data.key}`;
+        console.log(data.key);
+        fetch(url, {
+          method: "DELETE"
+        });
+      }
+
       getForm.addEventListener("submit", handleGet);
       setForm.addEventListener("submit", handleSet);
+      removeSecretForm.addEventListener("submit", handleRemove);
     </script>
   </body>
 </html>
