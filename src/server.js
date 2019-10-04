@@ -1,6 +1,7 @@
 const http = require("http");
 const url = require("url");
 const fs = require("fs");
+require("./lib/database");
 
 const { get, set } = require("./lib/commands");
 
